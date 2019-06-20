@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% include 'messages.html' %}
+{% block body %}
+<div class="container">
+    <div class="thumbnail1">
+        {% if lessons %}
+            {% for key, lesson in lessons.items %}
+                <div class="thumbnail">
+                        <h5 class="lessonname">{{ lesson.lesson.user.first_name }} {{ lesson.lesson.user.last_name }}</h5>
+                    <a href="{% url 'edms:lesson-detail' pk=lesson.lesson.pk %}">
+                        <h2 class="lessonname">{{ lesson.lesson.lesson_name|safe|linebreaks|truncatechars:150 }}</h2>
+                    </a>
+                    {% for request in lesson.docs %}
+                    <div class="r_docs">
+                        <ul>
+                            <input {% if request.d_bool %}checked="checked"{% endif %} type="checkbox"/>
+                            <a class="r_doc" href="{% url 'edms:requsted-update' pk=request.pk %}" role="button">{{ request.d_name }}</a>
+                        </ul>
+                    </div>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+</div>
+</div>
+{% endblock %}

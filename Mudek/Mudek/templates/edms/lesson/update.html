@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+
+{% block body %}
+
+    <div class="container">
+        <div class="thumbnail1">
+            <div class="updateform">
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    {{ form.media }}
+                    <input class="btn btn-update" type="submit" value="Lesson Save">
+                </form>
+        </div>
+        </div>
+    </div>
+
+{% endblock %}

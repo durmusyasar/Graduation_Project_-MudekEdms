@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+<div class="container-fluid">
+    <div class="lessonheader">
+        <h1>{{ object.lesson_name }} </h1>
+        
+    </div>
+</div>
+
+<div class="col-sm-8 col-md-9 block-content">
+    <ul class="nav nav-pills" style="margin-bottom: 30px;"></ul>
+    
+    <div class="panel panel-info">
+        <div class="panel-heading">
+                Lesson Content
+        </div>
+        
+
+        <div class="panel-body">
+            <h5>{{ object.lesson_content|safe }}</h5>
+            {% if object.lesson_content_file %}
+                <h5><a class="btn btn-show" role="button" target="_blank" href="{{ object.lesson_content_file.url }}">Show Course Content</a></h5>
+            {% endif %}
+            <a href="{% url 'edms:lesson-update' pk=lesson.pk %}" class="btn btn-update" role="button">Update Lesson</a>
+        </div>
+    </div>
+
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            Lesson Note
+        </div>
+        <div class="panel-body">
+            <h5>{{ object.lesson_notes|safe }}</h5>
+            {% if object.lesson_notes_file %}
+                <h5><a class="btn btn-show" role="button" target="_blank" href="{{ object.lesson_notes_file.url }}">Note Show Content</a></h5>
+            {% endif %}
+            <a href="{% url 'edms:lesson-update' pk=lesson.pk %}" class="btn btn-update" role="button">Update Lesson</a>
+        </div>
+    </div>
+
+    <div class="exam">
+    {% if object.exam_set.all %}
+        {% for exam in object.exam_set.all %}
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    {{ exam.exam_type }}
+                </div>
+                <div class="panel-body">
+                    {% if exam.exam_type %}
+                        <h5>{{ exam.exam_information|safe }}</h5>
+                    {% endif %}
+                    {% if exam.exam_file %}
+                        <h5><a class="btn btn-show" role="button" target="_blank" href="{{ exam.exam_file.url }}">Show Exam Paper</a></h5>
+                    {% endif %}
+                    {% if exam.exam_answer_file %}
+                        <h5><a class="btn btn-show" role="button" target="_blank" href="{{ exam.exam_answer_file.url }}">Show Answer Paper</a></h5>
+                    {% endif %}
+                    <a href="{% url 'edms:exam-update' pk=exam.pk %}" class="btn btn-update" role="button">Update Exam</a>
+                </div>
+            </div>
+        {% endfor %}
+    {% endif %}
+    </div>
+    <div class="other">
+        {% for other in object.other_document_set.all %}
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    {{ other.lesson }} Other Documents
+                </div>
+                <div class="panel-body">
+                    {{ other.name }}
+                    <a href="{% url 'edms:other-document-update' pk=other.pk %}" class="btn btn-update" role="button">Update Other Document</a>
+                </div>
+            </div>
+            
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
